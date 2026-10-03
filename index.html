@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Жошы хан және цифрлық тарих</title>
+<meta name="theme-color" content="#e6d4ad">
+<style>
+:root{
+  --sand:#ead8b0;
+  --paper:rgba(255,248,236,.72);
+  --paper-strong:rgba(255,250,242,.88);
+  --line:rgba(165,130,84,.36);
+  --gold:#bc914b;
+  --turq:#4d7a86;
+  --turq2:#325c69;
+  --ink:#312518;
+  --muted:#65584b;
+  --shadow:0 18px 55px rgba(70,49,28,.12);
+  --r:26px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f6efdd,#ead8b0);}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.09;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit}
+.container{width:min(1260px,calc(100% - 28px));margin:0 auto}
+
+/* entry */
+.entry{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:linear-gradient(180deg,rgba(43,34,25,.80),rgba(44,35,23,.66));overflow:hidden}
+.entry.hidden{opacity:0;visibility:hidden;transition:.7s ease}
+.entry:before{content:'';position:absolute;inset:0;background:url('bg_intro.jpg') center/cover no-repeat;opacity:.36;filter:saturate(.85)}
+.entry:after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,227,168,.20),transparent 48%)}
+.entry-box{position:relative;z-index:2;width:min(920px,92vw);padding:24px;border-radius:34px;background:rgba(252,245,228,.12);border:1px solid rgba(255,240,202,.22);backdrop-filter:blur(8px);box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.gate{height:300px;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(180deg,#8e7044,#4f3a22)}
+.gate:before{content:'';position:absolute;inset:16px;border:1px solid rgba(255,234,188,.38);border-radius:20px}
+.gate:after{content:'';position:absolute;top:0;bottom:0;width:1px;background:rgba(255,228,175,.25);right:18px}
+.gate.left{transform-origin:right center;animation:openLeft 2.5s ease forwards .35s}
+.gate.right{transform-origin:left center;animation:openRight 2.5s ease forwards .35s}
+.gate .ring{position:absolute;top:50%;width:34px;height:34px;border:4px solid rgba(236,205,138,.8);border-radius:50%;transform:translateY(-50%)}
+.gate.left .ring{right:34px}.gate.right .ring{left:34px}
+@keyframes openLeft{0%{transform:perspective(900px) rotateY(0)}60%{transform:perspective(900px) rotateY(-72deg)}100%{transform:perspective(900px) rotateY(-78deg);opacity:.22}}
+@keyframes openRight{0%{transform:perspective(900px) rotateY(0)}60%{transform:perspective(900px) rotateY(72deg)}100%{transform:perspective(900px) rotateY(78deg);opacity:.22}}
+.scroll-card{margin-top:-180px;margin-inline:auto;position:relative;z-index:3;width:min(780px,90%);padding:30px 30px 28px;border-radius:28px;background:linear-gradient(180deg,rgba(251,244,229,.95),rgba(245,232,207,.95));border:1px solid rgba(179,141,88,.38);box-shadow:0 18px 50px rgba(0,0,0,.18);text-align:center}
+.scroll-card:before,.scroll-card:after{content:'';position:absolute;top:32px;bottom:32px;width:22px;border-radius:999px;background:linear-gradient(180deg,#c7a05c,#9d743b)}
+.scroll-card:before{left:-10px}.scroll-card:after{right:-10px}
+.scroll-top{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#8e6a3d;font-weight:700}
+.scroll-card h1{margin:10px 0 12px;font-family:Georgia,serif;font-size:clamp(30px,4.8vw,64px);line-height:.95;color:#3d2d1b}
+.scroll-card p{margin:8px auto;max-width:680px;color:#584c41;line-height:1.75}
+.entry-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;cursor:pointer;padding:14px 24px;border-radius:999px;font-weight:700}
+.btn.primary{background:linear-gradient(180deg,#c39856,#ab7a3f);color:#fff9ef;box-shadow:0 12px 26px rgba(86,58,24,.22)}
+.btn.ghost{background:rgba(255,250,242,.78);color:#4a3724;border:1px solid rgba(186,149,90,.45)}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:72px 0 38px;overflow:hidden}
+.hero:before{content:'';position:absolute;inset:0;background:url('bg_intro.jpg') center/cover no-repeat;opacity:.82}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(252,247,238,.30),rgba(247,239,225,.80) 56%,rgba(245,235,215,.96));}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:end}
+.glass{background:var(--paper);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.hero-main{padding:28px}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8e6a3d;font-weight:700}
+.hero-main h1{margin:8px 0 10px;font-family:Georgia,serif;font-size:clamp(36px,5.2vw,68px);line-height:.95;color:#3c2d1d}
+.hero-main p{margin:0;color:#574b40;font-size:17px;line-height:1.8}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.hero-tags span{padding:8px 12px;border-radius:999px;background:rgba(255,245,220,.9);border:1px solid rgba(185,152,100,.42);color:#6d5532;font-size:13px;font-weight:700}
+.hero-side{display:grid;gap:14px}
+.side-card{padding:18px 18px 16px}
+.side-card h3{margin:0 0 8px;font-family:Georgia,serif;color:#4a3524}
+.side-card ul{margin:0;padding-left:20px;color:#5c5145}
+
+header{position:sticky;top:0;z-index:30;background:rgba(251,244,231,.74);backdrop-filter:blur(12px);border-bottom:1px solid rgba(172,139,91,.18)}
+.nav{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:14px 0}
+.brand{font-family:Georgia,serif;font-size:24px;color:#433120}.brand small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8d6d43;font-family:Inter,Segoe UI,Arial,sans-serif}
+.nav-links{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{padding:10px 14px;border-radius:999px;background:rgba(255,247,232,.78);border:1px solid rgba(190,157,106,.38);font-size:14px;color:#5f4c39;font-weight:650}
+
+main{padding:26px 0 58px}
+.museum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.hall{position:relative;min-height:265px;border-radius:28px;overflow:hidden;border:1px solid rgba(171,138,90,.24);box-shadow:var(--shadow);cursor:pointer;background:#d7c09b}
+.hall::before{content:'';position:absolute;inset:0;background:center/cover no-repeat;transform:scale(1.03);transition:.5s ease}
+.hall::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,231,203,.14),rgba(248,243,235,.28) 35%,rgba(41,31,20,.56));}
+.hall:hover:before{transform:scale(1.08)}
+.hall-content{position:absolute;inset:auto 0 0 0;z-index:1;padding:20px;color:#fff8f0}
+.hall-content h3{margin:0 0 6px;font-family:Georgia,serif;font-size:30px}
+.hall-content p{margin:0 0 10px;font-size:14px;line-height:1.55;color:#f5ebdc}
+.hall-content span{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(255,247,230,.18);border:1px solid rgba(255,234,200,.30);font-size:13px;font-weight:700}
+.hall.overview::before{background-image:url('bg_overview.jpg')}
+.hall.bio::before{background-image:url('bg_bio.jpg')}
+.hall.gene::before{background-image:url('bg_gene.jpg')}
+.hall.map::before{background-image:url('bg_map.jpg')}
+.hall.maus::before{background-image:url('bg_maus.jpg')}
+.hall.fact::before{background-image:url('bg_intro.jpg')}
+
+.note-strip{margin:18px 0 0;padding:18px 20px;border-radius:24px;background:rgba(255,248,236,.72);border:1px solid rgba(174,140,93,.28);color:#594d42;box-shadow:var(--shadow)}
+.note-strip b{color:#3d2c1d}
+
+/* modals */
+.modal{position:fixed;inset:0;z-index:120;display:none;background:rgba(39,30,22,.56);backdrop-filter:blur(7px);padding:16px}
+.modal.show{display:block}
+.modal-box{max-width:1200px;height:min(92vh,1000px);margin:0 auto;border-radius:30px;overflow:hidden;background:rgba(255,250,240,.92);border:1px solid rgba(169,138,92,.32);box-shadow:0 28px 80px rgba(0,0,0,.22);display:grid;grid-template-rows:auto 1fr}
+.modal-head{position:relative;min-height:210px;display:flex;align-items:flex-end;padding:24px;overflow:hidden}
+.modal-head::before{content:'';position:absolute;inset:0;background:center/cover no-repeat;opacity:.5}
+.modal-head::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,250,240,.12),rgba(255,249,242,.95))}
+.modal-head > div{position:relative;z-index:1;max-width:800px}
+.modal-head h2{margin:0;font-family:Georgia,serif;font-size:clamp(30px,4vw,48px);color:#3a2b1b}
+.modal-head p{margin:8px 0 0;color:#5c5045;font-size:16px;line-height:1.65}
+.modal-head .close{position:absolute;top:18px;right:18px;z-index:2;width:44px;height:44px;border:none;border-radius:50%;background:rgba(255,248,236,.86);color:#4c3a2a;font-size:24px;cursor:pointer;box-shadow:var(--shadow)}
+.modal.overview .modal-head::before{background-image:url('bg_overview.jpg')}
+.modal.bio .modal-head::before{background-image:url('bg_bio.jpg')}
+.modal.gene .modal-head::before{background-image:url('bg_gene.jpg')}
+.modal.map .modal-head::before{background-image:url('bg_map.jpg')}
+.modal.maus .modal-head::before{background-image:url('bg_maus.jpg')}
+.modal.fact .modal-head::before{background-image:url('bg_intro.jpg')}
+.modal-body{overflow:auto;padding:22px 22px 28px}
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--paper-strong);border:1px solid rgba(181,148,98,.25);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 10px;font-family:Georgia,serif;color:#463424;font-size:26px}
+.card p,.card li{color:#5e5247;line-height:1.72}
+.card ul{margin:0;padding-left:18px}
+.callout{padding:16px 18px;border-radius:18px;background:rgba(247,236,205,.86);border-left:5px solid var(--gold);color:#594d40}
+.big-figure{display:grid;grid-template-columns:1fr .95fr;gap:18px}
+.figure{background:rgba(255,251,243,.84);border:1px solid rgba(182,151,104,.25);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.figure img{width:100%;height:100%;object-fit:cover}
+.caption{padding:12px 16px;color:#605448;font-size:14px;line-height:1.55}
+.portrait{display:grid;grid-template-columns:370px 1fr;gap:18px}
+.portrait .figure img{height:100%}
+.timeline{display:grid;gap:12px}
+.timeline-item{display:grid;grid-template-columns:115px 1fr;gap:14px;align-items:start;padding:16px;border-radius:18px;background:rgba(255,250,242,.86);border:1px solid rgba(184,150,100,.22)}
+.timeline-item b{display:inline-block;padding:8px 12px;border-radius:12px;background:rgba(240,225,187,.82);color:#7b5a2d;text-align:center}
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.chain span{display:inline-block;padding:9px 11px;border-radius:14px;background:rgba(255,242,216,.90);border:1px solid rgba(188,157,111,.34);font-size:14px;color:#553f2b;font-weight:650}
+.chain em{font-style:normal;color:#9c7a46;font-weight:800}
+.tree-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sons-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.son{padding:14px;border-radius:18px;background:rgba(255,252,246,.82);border:1px solid rgba(181,147,100,.24)}
+.son h4{margin:0 0 6px;font-family:Georgia,serif;font-size:21px;color:#473323}
+.mapbox svg{width:100%;height:auto;border-radius:22px;background:#eff4ef;border:1px solid rgba(182,149,101,.18)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.legend span{display:flex;align-items:center;gap:8px;font-size:13px;color:#615549}.legend span:before{content:'';width:12px;height:12px;border-radius:50%;background:var(--c,#bc914b)}
+.pin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}
+.pin{padding:14px;border-radius:18px;background:rgba(255,252,246,.82);border:1px solid rgba(181,147,100,.24)}
+.pin h4{margin:0 0 6px;font-family:Georgia,serif;color:#493525}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gallery .figure img{height:220px}
+.embed{position:relative;padding-top:56.25%;border-radius:22px;overflow:hidden;border:1px solid rgba(181,148,98,.28);background:rgba(255,250,242,.7)}
+.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.resource-list{display:grid;gap:12px}
+.resource{padding:14px;border-radius:18px;background:rgba(255,252,246,.82);border:1px solid rgba(181,147,100,.24)}
+.resource a{color:#2e6474;text-decoration:underline}
+.quiz .q{padding:14px;border-radius:18px;background:rgba(255,252,246,.84);border:1px solid rgba(181,147,100,.24);margin-bottom:12px}
+.quiz .q h4{margin:0 0 10px;color:#463322;font-size:17px}
+.option{display:block;margin:8px 0;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.74);border:1px solid rgba(223,212,188,.92);cursor:pointer}
+.result{display:none;margin-top:14px;padding:15px 16px;border-radius:16px;background:rgba(247,236,205,.92);border:1px solid rgba(190,157,106,.35);color:#4f4338}
+footer{padding:26px 0 40px;text-align:center;color:#6b5d51;font-size:14px}
+
+@media (max-width: 1050px){
+  .hero-inner,.portrait,.big-figure,.section-grid,.tree-columns{grid-template-columns:1fr}
+  .museum-grid,.gallery,.sons-grid,.pin-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 760px){
+  .container{width:min(100% - 20px,1260px)}
+  .gates{grid-template-columns:1fr 1fr;gap:10px}
+  .gate{height:180px}
+  .scroll-card{margin-top:-70px;padding:20px}
+  .hero{padding-top:88px;min-height:auto}
+  .hero-inner,.museum-grid,.gallery,.sons-grid,.pin-grid,.section-grid{grid-template-columns:1fr}
+  .nav{display:block}
+  .nav-links{margin-top:12px;overflow:auto;flex-wrap:nowrap;padding-bottom:8px}
+  .nav-links a{flex:0 0 auto}
+  .hall{min-height:238px}
+  .modal{padding:8px}
+  .modal-box{height:94vh}
+  .timeline-item{grid-template-columns:1fr}
+  .portrait .figure img,.gallery .figure img{height:220px}
+}
+</style>
+</head>
+<body>
+<div class="entry" id="entry">
+  <div class="entry-box">
+    <div class="gates">
+      <div class="gate left"><span class="ring"></span></div>
+      <div class="gate right"><span class="ring"></span></div>
+    </div>
+    <div class="scroll-card">
+      <div class="scroll-top">интерактивті цифрлық музей</div>
+      <h1>ЖОШЫ ХАН ЖӘНЕ ЦИФРЛЫҚ ТАРИХ</h1>
+      <p>Қазақстан үшін бұл тақырып өзекті, себебі Жошы хан тұлғасы Ұлы Дала тарихымен, Жошы ұлысымен, қазақ хандарының арғы тегімен және Ұлытау өңіріндегі тарихи мұрамен тікелей байланысты. Осы музейде өмірбаян, шежіре, карта, кесене, археология, аңыз және дереккөздер бір кеңістікте топтастырылды.</p>
+      <div class="entry-actions">
+        <button class="btn primary" onclick="openMuseum()">Экскурсияны бастау</button>
+        <a class="btn ghost" href="#halls" onclick="openMuseum()">Музей картасы</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="glass hero-main">
+      <div class="kicker">Алтын Орда стиліндегі тарихи музей</div>
+      <h1>ЖОШЫ ХАН ЖӘНЕ ЦИФРЛЫҚ ТАРИХ</h1>
+      <p>Бұл сайт — Жошы хан тұлғасын толық таныстыратын энциклопедиялық цифрлық музей. Мұнда Жошының өмірі, әулеті, ұлысы, иеленген жерлері, Ұлытаудағы кесенесі, археологиялық зерттеулер, аңыздар, нақты фотолар, 3D-модель, бейнематериалдар және дереккөздер жинақталды.</p>
+      <div class="hero-tags">
+        <span>Шежіре</span><span>Карта</span><span>Кесене</span><span>3D</span><span>Бейне</span><span>Дереккөздер</span>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="glass side-card">
+        <h3>Зерттеудің мақсаты</h3>
+        <p>Жошы ханның тарихи мұрасын зерттеп, оны тарихи дерек, визуал, шежіре, карта және 3D құралдары біріктірілген интерактивті цифрлық музей арқылы ұсыну.</p>
+      </div>
+      <div class="glass side-card">
+        <h3>Негізгі міндеттер</h3>
+        <ul>
+          <li>Жошы хан туралы деректерді бір жерге жинақтау;</li>
+          <li>Әулеттік сабақтастықты Керей мен Жәнібекке дейін көрсету;</li>
+          <li>Иеленген аумақтар мен негізгі орындарды картада беру;</li>
+          <li>Кесене, археология және аңыз материалдарын жүйелеу.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<header>
+  <div class="container nav">
+    <div class="brand">Жошы хан<small>цифрлық музей</small></div>
+    <div class="nav-links">
+      <a href="#halls">Музей залдары</a>
+      <a href="#">Басты бет</a>
+      <a href="javascript:openModal('mausHall')">Кесене</a>
+      <a href="javascript:openModal('factHall')">Дереккөздер</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section id="halls">
+    <div class="museum-grid">
+      <article class="hall overview" onclick="openModal('overviewHall')"><div class="hall-content"><h3>Кіріспе</h3><p>Тақырыптың өзектілігі, мақсат, міндет, неге Жошы мұрасын цифрлық форматта қарастыру маңызды екені.</p><span>Свитокты ашу</span></div></article>
+      <article class="hall bio" onclick="openModal('bioHall')"><div class="hall-content"><h3>Жошы хан</h3><p>Өмірбаяны, тарихи рөлі, жорықтары, тұлғалық бейнесі және Жошы ұлысының қалыптасуы.</p><span>Портрет залы</span></div></article>
+      <article class="hall gene" onclick="openModal('geneHall')"><div class="hall-content"><h3>Шежіре</h3><p>Ата-тегі, аналары мен бауырлары, жұбайлары, ұлдары, ұрпақтары және Керей–Жәнібекке дейінгі желі.</p><span>Родословие ағашы</span></div></article>
+      <article class="hall map" onclick="openModal('mapHall')"><div class="hall-content"><h3>Карта</h3><p>Жошы ұлысының кеңістігі, Дешті Қыпшақ даласы, Ұлытау, Сығанақ, Жент, Үргеніш және тарихи бағыттар.</p><span>Картаға кіру</span></div></article>
+      <article class="hall maus" onclick="openModal('mausHall')"><div class="hall-content"><h3>Кесене және 3D</h3><p>Ресми мәліметтер, нақты фотогалерея, сәулеттік сипаттама, бейне және 3D-модель.</p><span>Кесенені көру</span></div></article>
+      <article class="hall fact" onclick="openModal('factHall')"><div class="hall-content"><h3>Энциклопедия</h3><p>Археология, «Ақсақ құлан» аңызы, қызықты деректер, бейнелер, сыртқы ресурстар және қорытынды тест.</p><span>Толық материал</span></div></article>
+    </div>
+    <div class="note-strip"><b>Идеясы:</b> әр зал — жеке картина секілді. Картинаға кіргенде ақпарат бір музейлік терезе ішінде ашылады: стиль жеңіл, жартылай мөлдір, дала, киіз үй, өзен, керуен және алтын-көгілдір Алтын Орда атмосферасы сақталды.</div>
+  </section>
+</main>
+
+<footer>© «Жошы хан және цифрлық тарих» · қазақ тіліндегі интерактивті музей</footer>
+
+<!-- Overview modal -->
+<div class="modal overview" id="overviewHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('overviewHall')">×</button><div><h2>Кіріспе свитогы</h2><p>Жоба өзектілігі, мақсаты мен міндеттері, цифрлық тарих бағытының мәні.</p></div></div>
+    <div class="modal-body">
+      <div class="section-grid">
+        <div class="card"><h3>Өзектілігі</h3><p>Жошы хан туралы мәліметтер өмірбаян, шежіре, кесене, аңыз, археология және тарихи география бағыттары бойынша әртүрлі дереккөздерге шашырап орналасқан. Цифрлық тарих бағытының басты артықшылығы — осы деректерді бір ортада біріктіріп, мәтін ғана емес, карта, фото, 3D және бейне арқылы да ұсынуында.</p><p>Қазақстан үшін Жошы хан тақырыбы ерекше маңызды, себебі ол Ұлытау кеңістігімен, Жошы ұлысымен және кейінгі қазақ хандарының арғы аталарымен сабақтасады. Сондықтан бұл музей тарихи мұраны заманауи әрі көрнекі форматта жеткізуге арналған.</p></div>
+        <div class="card"><h3>Мақсаты мен міндеттері</h3><p><b>Мақсаты:</b> Жошы ханның тарихи мұрасын зерттеп, оны интерактивті цифрлық музей арқылы ұсыну.</p><ul><li>Жошы ханның өмірі мен тарихи рөлін сипаттау;</li><li>Ата-тегі, бауырлары, жұбайлары, ұлдары және ұрпақтары жөніндегі мәліметтерді жүйелеу;</li><li>Жошы ұлысының аумағын және маңызды орындарды картада көрсету;</li><li>Кесене туралы ресми мәлімет, фото, бейне және 3D материалдарын жинақтау;</li><li>Аңыз бен тарихи деректі ажыратып, бір сайтқа топтастыру.</li></ul></div>
+      </div>
+      <div class="callout" style="margin-top:18px">Бұл жоба жай сайт емес, <b>музейлік құрылымдағы цифрлық энциклопедия</b>. Пайдаланушы кез келген залды таңдап, сол бөлімнің толық материалын бір терезеде оқи алады.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bio modal -->
+<div class="modal bio" id="bioHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('bioHall')">×</button><div><h2>Жошы хан — тарихи тұлға</h2><p>Шыңғыс ханның үлкен ұлы, Дешті Қыпшақтағы биліктің иесі, Жошы ұлысының негізін қалаған қайраткер.</p></div></div>
+    <div class="modal-body">
+      <div class="portrait">
+        <figure class="figure"><img src="portrait_art.png" alt="Жошы хан көркем бейнесі"><figcaption class="caption">Көркем бейне. Жошының замандас дәл портреті сақталмағандықтан, музейде дәуірлік образға сай иллюстрациялық шешім қолданылды.</figcaption></figure>
+        <div class="card"><h3>Жошы хан кім?</h3><p>Жошы хан (Джучи) — Шыңғыс хан мен Бөртенің тұңғыш ұлы, тарихи деректерде шамамен 1179–1187 жылдар аралығында туған деп көрсетіледі. Ол ерте жастан жорықтарға қатысып, 1207 жылғы орман тайпаларына бағытталған жорықта көзге түсті. Кейін Дешті Қыпшақ аумағына байланысты биліктің иесі ретінде танылып, Жошы ұлысының негізін қалады.</p><p>Еуразия даласындағы кең аумақ Жошының үлесіне беріліп, кейін осы кеңістікте Алтын Орда дәуірі қалыптасты. Сондықтан Жошы хан — қазақ хандары мен сұлтандарының арғы атасы ретінде де айрықша тұлға.</p></div>
+      </div>
+      <div class="section-grid" style="margin-top:18px">
+        <div class="card"><h3>Өмір жолының негізгі кезеңдері</h3><div class="timeline">
+          <div class="timeline-item"><b>шамамен 1179–1187</b><p>Тууы. Жылына қатысты деректерде айырмашылық бар.</p></div>
+          <div class="timeline-item"><b>1207</b><p>Орман тайпаларына жасалған жорық. Бұл оның жеке әскери қабілетін танытқан алғашқы ірі кезеңдердің бірі.</p></div>
+          <div class="timeline-item"><b>1216–1221</b><p>Қыпшақ даласы мен Хорезм оқиғаларына байланысты жорықтар кезеңі. Үргеніш мәселесінде Жошы мен Шағатай арасында көзқарас қайшылығы туралы мәліметтер бар.</p></div>
+          <div class="timeline-item"><b>1220-жылдар</b><p>Дешті Қыпшақ пен Ұлытау кеңістігі Жошы билігімен тығыз байланысты тарихи аймақ ретінде айқындала бастайды.</p></div>
+          <div class="timeline-item"><b>1227</b><p>Қайтыс болған уақыты ретінде жиі айтылады. Халық жадында бұл оқиға «Ақсақ құлан» аңызымен сабақтасып кеткен.</p></div>
+        </div></div>
+        <div class="card"><h3>Тарихи рөлі</h3><ul><li>Дешті Қыпшақ кеңістігіндегі биліктің бастауын қалыптастырды;</li><li>Жошы ұлысының саяси негізін қалады;</li><li>Оның ұрпақтары Алтын Орда, Ақ Орда, Қазақ хандығы секілді құрылымдардың тарихына ықпал етті;</li><li>Керей мен Жәнібек хандарға дейінгі әулеттік сабақтастық Жошы арқылы жалғасады;</li><li>Ұлытау өңіріндегі кесене оның тарихи жадының нақты сәулеттік нышанына айналды.</li></ul><div class="callout" style="margin-top:14px">Жошы хан тұлғасын түсіну — тек бір адамның өмірбаянын білу емес, сонымен бірге Ұлы Даладағы мемлекеттілік эволюциясын тану деген сөз.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Genealogy -->
+<div class="modal gene" id="geneHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('geneHall')">×</button><div><h2>Шежіре және әулеттік сабақтастық</h2><p>Ата-тегі, анасы мен әкесі, бауырлары, жұбайлары, ұлдары және Жошыдан тараған әулеттер.</p></div></div>
+    <div class="modal-body">
+      <div class="tree-columns">
+        <div class="card"><h3>Тегі мен жақын ортасы</h3><p><b>Әкесі:</b> Шыңғыс хан (Темүжин).</p><p><b>Анасы:</b> Бөрте.</p><p><b>Бауырлары:</b> Шағатай, Үгедей, Төле — Шыңғыс ханның Бөртеден туған белгілі төрт ұлының қатарына жатады.</p><div class="chain"><span>Есугей баһадүр</span><em>→</em><span>Темүжин / Шыңғыс хан</span><em>→</em><span>Жошы хан</span></div><p>Жошының шыққан тегі Боржигин әулетіне тиесілі. Бұл шежірелік желі кейінгі ғасырларда Дешті Қыпшақ пен қазақ даласындағы биліктің заңдылығын түсіндіруде шешуші маңызға ие болды.</p></div>
+        <div class="card"><h3>Жұбайлары мен балалары туралы</h3><p>Ортағасырлық деректерде Жошы ханның бірнеше жұбайы болғаны және көп балалы болғаны айтылады. Әр дереккөзде балалар саны мен кейбір есімдерде айырмашылық кездеседі. Алайда Рашид ад-Дин секілді деректерде Жошының 14 ұлы болғаны көрсетіледі.</p><p>Бұл музейде ең жиі аталатын әрі тарихи ықпалы жоғары тармақтар арнайы бөлініп берілді: <b>Орда Ежен</b>, <b>Бату</b>, <b>Берке</b>, <b>Шибан</b>, <b>Тоқай Темір</b>.</p></div>
+      </div>
+      <div class="card" style="margin-top:18px"><h3>Жошы ханның ұлдары</h3><p>Тарихи шежірелерде есімдер әрқилы жазылады. Төмендегі тізім Рашид ад-Дин дәстүрінде жиі кездесетін нұсқаға сүйене отырып берілді:</p>
+        <div class="sons-grid">
+          <div class="son"><h4>Орда Ежен</h4><p>Үлкен ұл. Ақ Орда және қазақ хандарының шежірелік желісінде ерекше маңызды тармақ.</p></div>
+          <div class="son"><h4>Бату</h4><p>Батысқа жорықтармен танылған тұлға. Оның ұрпақтары Алтын Ордадағы биліктің басты тармағын құрады.</p></div>
+          <div class="son"><h4>Берке</h4><p>Кейін билікке келген беделді хан. Алтын Орда тарихында ықпалды орын алады.</p></div>
+          <div class="son"><h4>Беркешар</h4><p>Шежірелерде аталатын Жошы тармағының өкілі.</p></div>
+          <div class="son"><h4>Шибан</h4><p>Шибанилерге бастау болған әулеттік тармақтың атасы.</p></div>
+          <div class="son"><h4>Таңғқұт</h4><p>Кейбір шежірелерде Таңғут/Тангкут түрінде берілетін есім.</p></div>
+          <div class="son"><h4>Бувал</h4><p>Дереккөздерде жиі аталады, бірақ саяси тарихы аз сақталған.</p></div>
+          <div class="son"><h4>Чилаукүн</h4><p>Есімі әртүрлі транскрипцияда кездеседі.</p></div>
+          <div class="son"><h4>Шингқұр</h4><p>Шежірелік тізімдерде аталады.</p></div>
+          <div class="son"><h4>Шымпай</h4><p>Кейбір деректерде Чимпай деп беріледі.</p></div>
+          <div class="son"><h4>Мұхаммед</h4><p>Жошы ұрпақтарының бір тармағын жалғастырған есімдердің бірі.</p></div>
+          <div class="son"><h4>Өдүр</h4><p>Тізімдерде сирек сипатталатын тармақ.</p></div>
+          <div class="son"><h4>Тоқай Темір</h4><p>Көптеген әулеттік тармақтың негізгі бастауларының бірі.</p></div>
+          <div class="son"><h4>Сингқұм</h4><p>Кейбір тізімдерде соңғы ұл ретінде аталады.</p></div>
+        </div>
+      </div>
+      <div class="tree-columns" style="margin-top:18px">
+        <div class="card"><h3>Керей ханға дейінгі желі</h3><div class="chain"><span>Шыңғыс хан</span><em>→</em><span>Жошы хан</span><em>→</em><span>Орда Ежен</span><em>→</em><span>Сасыбұқа</span><em>→</em><span>Ерзен</span><em>→</em><span>Шымтай</span><em>→</em><span>Орыс хан</span><em>→</em><span>Тоқтақия</span><em>→</em><span>Болат</span><em>→</em><span>Керей хан</span></div><p>Керей хан — Қазақ хандығын құрушы тұлғалардың бірі. Оның шығу тегі Жошы — Орда Ежен — Орыс хан желісі арқылы таратылады.</p></div>
+        <div class="card"><h3>Жәнібек ханға дейінгі желі</h3><div class="chain"><span>Шыңғыс хан</span><em>→</em><span>Жошы хан</span><em>→</em><span>Орда Ежен</span><em>→</em><span>Сасыбұқа</span><em>→</em><span>Ерзен</span><em>→</em><span>Шымтай</span><em>→</em><span>Орыс хан</span><em>→</em><span>Құйыршық</span><em>→</em><span>Барақ хан</span><em>→</em><span>Жәнібек хан</span></div><p>Жәнібек хан да Жошы әулетінен тарайды. Осы желі Қазақ хандығының тарихи заңдылығын түсіндіруде маңызды.</p></div>
+      </div>
+      <div class="callout" style="margin-top:18px">Қысқаша тұжырым: <b>Жошы хан — қазақ хандық әулеттерінің арғы аталарының бірі.</b> Сондықтан оның шежіресі Қазақстан тарихын түсіндіруде басты өзектердің бірі болып саналады.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Map -->
+<div class="modal map" id="mapHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('mapHall')">×</button><div><h2>Карта және иеліктер</h2><p>Жошы ұлысының кеңістігі, тарихи бағыттар және маңызды орындардың карталық көрінісі.</p></div></div>
+    <div class="modal-body">
+      <div class="section-grid">
+        <div class="card mapbox"><h3>Жошы ұлысының кеңістігі</h3>
+          <svg viewBox="0 0 760 450" aria-label="Жошы ұлысының картасы">
+            <rect width="760" height="450" rx="22" fill="#eef3ef"/>
+            <path d="M40 120 C120 150 160 220 250 230 S380 170 470 190 S610 275 725 300" fill="none" stroke="#8fb2c4" stroke-width="8" opacity=".62"/>
+            <path d="M40 120 C120 150 160 220 250 230 S380 170 470 190 S610 275 725 300" fill="none" stroke="#4b7d96" stroke-width="2"/>
+            <path d="M110 330 C210 270 300 245 400 200 S560 125 660 100" fill="none" stroke="#bd944d" stroke-width="4" stroke-dasharray="10 8"/>
+            <path d="M280 350 C350 310 445 300 560 318 S630 330 700 340" fill="none" stroke="#8b4a3d" stroke-width="4" stroke-dasharray="9 9"/>
+            <circle cx="508" cy="225" r="8" fill="#4b7d96"/><text x="522" y="230" font-size="14" fill="#2e2318">Ұлытау</text>
+            <circle cx="558" cy="232" r="7" fill="#4b7d96"/><text x="572" y="237" font-size="13" fill="#2e2318">Қаракеңгір</text>
+            <circle cx="325" cy="258" r="8" fill="#bd944d"/><text x="340" y="263" font-size="14" fill="#2e2318">Сығанақ</text>
+            <circle cx="272" cy="285" r="8" fill="#bd944d"/><text x="287" y="290" font-size="14" fill="#2e2318">Жент</text>
+            <circle cx="206" cy="311" r="8" fill="#8b4a3d"/><text x="221" y="316" font-size="14" fill="#2e2318">Үргеніш</text>
+            <circle cx="618" cy="125" r="8" fill="#4b7d96"/><text x="633" y="130" font-size="14" fill="#2e2318">Ертіс бағыты</text>
+            <circle cx="470" cy="339" r="8" fill="#8b4a3d"/><text x="485" y="344" font-size="14" fill="#2e2318">Шу–Қозыбасы</text>
+          </svg>
+          <div class="legend"><span style="--c:#4b7d96">негізгі орталықтар</span><span style="--c:#bd944d">жорық бағыттары</span><span style="--c:#8b4a3d">кейінгі сабақтастық нүктелері</span></div>
+        </div>
+        <div class="card"><h3>Жерлері мен тарихи кеңістік</h3><p>Жошы үлесіне әкесінен Ертіс өзенінен бастап батысқа қарай Қыпшақ даласының кең аумағы берілгені туралы деректер айтылады. Кейін Жошы ұлысы ұғымы осы кеңістікке қатысты қолданылды. Бұл аумақ Дешті Қыпшақпен, Ұлытаумен, Сыр бойымен, Хорезммен және батыс далалармен тығыз байланысты болды.</p><p>Кейін Батудың батыс жорықтары нәтижесінде Жошы ұлысының кеңістігі Дунайға дейін ұлғайып, Алтын Орда кезеңіне негіз қалады. Музейдегі карта дәл осы географиялық логиканы көрнекі түрде түсіндіру үшін енгізілді.</p></div>
+      </div>
+      <div class="pin-grid">
+        <div class="pin"><h4>Ұлытау</h4><p>Жошы хан кесенесі орналасқан тарихи өңір. Қазақ тарихи жадындағы аса маңызды киелі кеңістік.</p></div>
+        <div class="pin"><h4>Қаракеңгір</h4><p>Кесене орналасқан өзен аңғары. Official Archaeology.kz сипаттамасында көрсетіледі.</p></div>
+        <div class="pin"><h4>Сығанақ</h4><p>Жошы әулеті және Ақ Орда тарихында ерекше орын алған қала.</p></div>
+        <div class="pin"><h4>Жент</h4><p>Сыр бойындағы маңызды сауда және саяси торап.</p></div>
+        <div class="pin"><h4>Үргеніш</h4><p>Хорезм жорығымен байланысты тарихи орталық, Жошы өміріндегі маңызды оқиғалардың бірімен сабақтасады.</p></div>
+        <div class="pin"><h4>Шу–Қозыбасы</h4><p>Керей мен Жәнібек Қазақ хандығын бастаған аймақ. Жошы әулетінен Қазақ хандығына дейінгі жалғастықты көрсетеді.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mausoleum -->
+<div class="modal maus" id="mausHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('mausHall')">×</button><div><h2>Жошы хан кесенесі, фотогалерея және 3D</h2><p>Ресми сипаттама, нақты фотосуреттер, сәулет ерекшеліктері, бейне және Sketchfab 3D моделіне кіру.</p></div></div>
+    <div class="modal-body">
+      <div class="big-figure">
+        <figure class="figure"><img src="complex.png" alt="Жошы хан кешені"><figcaption class="caption">Жошы хан тарихи-мәдени кешеніне қатысты визуал. Кесене Ұлытау өңірінде, Жезқазғаннан солтүстік-шығысқа қарай шамамен 45 км жерде орналасады.</figcaption></figure>
+        <div class="card"><h3>Ресми мәлімет</h3><p>Archaeology.kz мәліметі бойынша, Жошы хан кесенесі Қарағанды облысы, Ұлытау ауданы аумағында орналасқан, 1201–1300 жылдар кезеңіне жатқызылатын республикалық маңызы бар тарихи-мәдени ескерткіш болып саналады. Ол Жезқазған қаласынан солтүстік-шығысқа қарай шамамен 45 км жерде орналасқан.</p><p>Кесене порталды-күмбезді түрге жатады. Жоспардағы көлемі — <b>7,25 × 9,25 м</b>, порталдың сақталған биіктігі — <b>7,85 м</b>, күмбез биіктігі — <b>7,1 м</b>. Екі күмбезі бар: ішкі жарты сфералы және сыртқы сфероконустық. Сыртқы қаптамада көгілдір глазурь қолданылған.</p></div>
+      </div>
+      <div class="gallery" style="margin-top:18px">
+        <figure class="figure"><img src="maus1.jpg" alt="Жошы хан кесенесі"><figcaption class="caption">Кесененің сыртқы көрінісі.</figcaption></figure>
+        <figure class="figure"><img src="maus2.jpg" alt="Жошы хан кесенесі қасбеті"><figcaption class="caption">Қасбеті мен күмбездік шешімі.</figcaption></figure>
+        <figure class="figure"><img src="maus3.jpg" alt="Жошы хан кесенесі интерьері"><figcaption class="caption">Ішкі кеңістігі мен интерьері.</figcaption></figure>
+      </div>
+      <div class="section-grid" style="margin-top:18px">
+        <div class="card"><h3>Архитектуралық ерекшеліктер</h3><ul><li>Қызыл күйдірілген сапалы кірпіштен салынған;</li><li>Негізгі фасады оңтүстік-батысқа қараған;</li><li>Пештак-порталы бар;</li><li>Төменгі барабаны 17 қырлы;</li><li>Дөңгелек барабан мен күмбезінде көгілдір тақталар қолданылған;</li><li>Кесене жанында Жошы ордасы деп танылатын ортағасырлық қоныс бар.</li></ul><div class="callout" style="margin-top:12px">Ресми археологиялық сипаттама кесене мен қоныстың Жошы ұлысы кезеңіндегі біртұтас кешен екенін атап өтеді.</div></div>
+        <div class="card"><h3>3D және бейне</h3><p>Archaeology.kz бетінде осы ескерткішке арналған бейне және Sketchfab 3D моделі бар. Егер кей құрылғыда тікелей iframe баяу ашылса, төмендегі сілтемелер арқылы жаңа бетте қарауға болады.</p><div class="resource-list"><div class="resource"><b>3D модель:</b> <a href="https://sketchfab.com/3d-models/mausoleum-of-zhochy-khan-03de3b449c2943c5901124250913d8e9" target="_blank">Sketchfab-та ашу</a></div><div class="resource"><b>Ресми бет:</b> <a href="https://archaeology.kz/heritages/120-zhoshy-han-kesenesi" target="_blank">Archaeology.kz — Жошы хан кесенесі</a></div><div class="resource"><b>Видео:</b> <a href="https://www.youtube.com/watch?v=jPl24nzpHGY" target="_blank">YouTube бейнематериалы</a></div></div></div>
+      </div>
+      <div class="section-grid" style="margin-top:18px">
+        <div class="card"><h3>Бейне қарау</h3><div class="embed"><iframe src="https://www.youtube-nocookie.com/embed/jPl24nzpHGY" title="Жошы хан кесенесі видео" loading="lazy" allowfullscreen></iframe></div></div>
+        <div class="card"><h3>3D алдын ала көру</h3><div class="embed"><iframe src="https://sketchfab.com/models/03de3b449c2943c5901124250913d8e9/embed" title="Jochi mausoleum 3D" loading="lazy" allowfullscreen></iframe></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Facts -->
+<div class="modal fact" id="factHall">
+  <div class="modal-box">
+    <div class="modal-head"><button class="close" onclick="closeModal('factHall')">×</button><div><h2>Археология, аңыз, бейнематериалдар және тест</h2><p>Қызықты деректер, «Ақсақ құлан» желісі, пайдалы сілтемелер және қысқа қорытынды тест.</p></div></div>
+    <div class="modal-body">
+      <div class="section-grid">
+        <div class="card"><h3>Археология және дерек</h3><p>1946 жылы Ә.Х. Марғұлан бастаған Орталық Қазақстан археологиялық экспедициясы Жошы хан кесенесін зерттеген. Кесене жанындағы Жошы ордасы қонысы Орда Базармен сәйкестендіріліп, кесене мен қоныстың біртұтас кешен екені айтылған. Кесене бірнеше ғасыр бойы жақсы сақталуы оның орын таңдауы мен құрылысының сапасына байланысты деп түсіндіріледі.</p><p>Қазіргі зерттеулер де кесене хронологиясы мен Жошы ұлысы кезеңіндегі мәдени ландшафтты талдауға бағытталған.</p></div>
+        <div class="card"><h3>Аңыз және тарихи жад</h3><p>Жошы хан өлімі жайлы ең кең тараған желі — <b>«Ақсақ құлан»</b>. Аңызда Жошының аңшылықта қаза тапқаны, ал қайғылы хабарды Шыңғыс ханға жыршы күй арқылы жеткізгені айтылады. Бұл желі тарихи нақты құжаттан бөлек, халық жадындағы мәдени код ретінде маңызды.</p><p>Осы себепті музейде аңыз материалдары тарихи деректен бөлек қарастырылады: аңыз — мәдени мұра, дерек — ғылыми негіз.</p></div>
+      </div>
+      <div class="card" style="margin-top:18px"><h3>Қызықты деректер</h3><ul><li>Жошы хан туралы нақты туған жылы әр деректе әртүрлі беріледі.</li><li>Ол — Шыңғыс ханның үлкен ұлы және қазақ хандары мен сұлтандарының арғы аталарының бірі.</li><li>Жошы ұлысы кейін Алтын Орда тарихымен сабақтасқан үлкен саяси кеңістікке айналды.</li><li>Жошы хан кесенесі Ұлытау өңіріндегі ең маңызды сәулет және зиярат нысандарының бірі.</li><li>Кесене жанында Жошы ордасы атты ортағасырлық қоныс болған.</li><li>Керей мен Жәнібек — Жошы әулетінен тарайтын тұлғалар.</li></ul></div>
+      <div class="section-grid" style="margin-top:18px">
+        <div class="card"><h3>Пайдалы видеолар мен сайттар</h3><div class="resource-list">
+          <div class="resource"><b>Archaeology.kz:</b> <a href="https://archaeology.kz/heritages/120-zhoshy-han-kesenesi" target="_blank">Жошы хан кесенесі</a></div>
+          <div class="resource"><b>e-history.kz:</b> <a href="https://e-history.kz/ru/prominent-figures/show/12808" target="_blank">Джучи (Жошы) хан</a></div>
+          <div class="resource"><b>Білім Қазына видео:</b> <a href="https://www.youtube.com/watch?v=sOHABgpcS3g" target="_blank">«Жошы хан кімнің ұлы?»</a></div>
+          <div class="resource"><b>Жошы хан өлімінің құпиясы:</b> <a href="https://www.youtube.com/watch?v=URxMP1iBAM4" target="_blank">YouTube</a></div>
+          <div class="resource"><b>Sketchfab 3D:</b> <a href="https://sketchfab.com/3d-models/mausoleum-of-zhochy-khan-03de3b449c2943c5901124250913d8e9" target="_blank">Мавзолейдің 3D моделі</a></div>
+        </div></div>
+        <div class="card quiz"><h3>Қысқа қорытынды тест</h3>
+          <div class="q"><h4>1. Жошы хан кімнің ұлы?</h4><label class="option"><input type="radio" name="q1" value="a"> Төле ханның</label><label class="option"><input type="radio" name="q1" value="b"> Шыңғыс ханның</label><label class="option"><input type="radio" name="q1" value="c"> Абылай ханның</label></div>
+          <div class="q"><h4>2. Жошы хан кесенесі қай өңірде орналасқан?</h4><label class="option"><input type="radio" name="q2" value="a"> Ұлытау өңірінде</label><label class="option"><input type="radio" name="q2" value="b"> Алтайда</label><label class="option"><input type="radio" name="q2" value="c"> Жетісуда</label></div>
+          <div class="q"><h4>3. Керей мен Жәнібек қай әулеттен тарайды?</h4><label class="option"><input type="radio" name="q3" value="a"> Жошы әулетінен</label><label class="option"><input type="radio" name="q3" value="b"> Найман әулетінен</label><label class="option"><input type="radio" name="q3" value="c"> Қаңлы әулетінен</label></div>
+          <div class="q"><h4>4. Кесенеге қатысты 3D модель қай платформада берілген?</h4><label class="option"><input type="radio" name="q4" value="a"> Behance</label><label class="option"><input type="radio" name="q4" value="b"> Sketchfab</label><label class="option"><input type="radio" name="q4" value="c"> SoundCloud</label></div>
+          <button class="btn primary" type="button" onclick="checkQuiz()">Нәтижені көру</button>
+          <div class="result" id="quizResult"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openMuseum(){document.getElementById('entry').classList.add('hidden');}
+function openModal(id){document.getElementById(id).classList.add('show');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('show');document.body.style.overflow='';}
+window.addEventListener('click', (e)=>{document.querySelectorAll('.modal.show').forEach(m=>{if(e.target===m){m.classList.remove('show');document.body.style.overflow='';}})});
+window.addEventListener('keydown', (e)=>{if(e.key==='Escape'){document.querySelectorAll('.modal.show').forEach(m=>m.classList.remove('show'));document.body.style.overflow='';}});
+const answers={q1:'b',q2:'a',q3:'a',q4:'b'};
+function checkQuiz(){let s=0;const total=Object.keys(answers).length;for(const [k,v] of Object.entries(answers)){const c=document.querySelector(`input[name="${k}"]:checked`);if(c&&c.value===v)s++;}const r=document.getElementById('quizResult');let msg=s===total?'Өте жақсы!':'Жақсы! Тағы бір рет музейді қарап шықсаң, нәтижені жақсартасың.';if(s<2)msg='Материалды тағы қарап шық: әсіресе шежіре, карта және кесене бөлімдерін.';r.style.display='block';r.innerHTML=`<b>Нәтиже:</b> ${s} / ${total}<br>${msg}`;}
+</script>
+</body>
+</html>
